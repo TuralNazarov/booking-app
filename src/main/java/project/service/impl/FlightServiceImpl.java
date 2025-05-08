@@ -3,21 +3,25 @@ package project.service.impl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import project.model.dto.FlightDto;
+import project.model.entity.FLight;
+import project.model.mapper.FlightMapper;
 import project.model.repository.FlightRepository;
 import project.service.FlightService;
 
 import java.util.List;
+import java.util.stream.Collector;
 
 @Service
 @AllArgsConstructor
 public class FlightServiceImpl implements FlightService {
 
     private final FlightRepository flightRepository;
-
+    private final FlightMapper flightMapper;
 
     @Override
     public List<FlightDto> findAllFlights() {
-        return List.of();
+        List<FLight> flights = flightRepository.findAll();
+        return flights.stream().map(FlightMapper :: toDto).collect(Collector.toList());
     }
 
     @Override
