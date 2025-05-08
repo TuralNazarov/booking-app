@@ -23,16 +23,16 @@ public class FLight {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false,name = "origin")
+    @Column(nullable = false, name = "origin")
     private String origin;
 
-    @Column(nullable = false,name="destination")
+    @Column(nullable = false, name = "destination")
     private String destination;
 
-    @Column(nullable = false,name = "aviableSeats")
+    @Column(nullable = false, name = "aviableSeats")
     private int aviableSeats;
     @Timestamp
-    @Column(nullable = false , name = "timestamp")
+    @Column(nullable = false, name = "timestamp")
     private LocalDateTime timestamp;
 
 

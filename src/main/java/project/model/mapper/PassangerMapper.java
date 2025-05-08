@@ -7,16 +7,19 @@ import project.model.entity.Pasangers;
 
 import java.util.List;
 
-@Mapper (componentModel = "spring")
-public interface PassangerMapper extends EntityMapper <PassangersDto, Pasangers>{
+@Mapper(componentModel = "spring")
+public interface PassangerMapper extends EntityMapper<PassangersDto, Pasangers> {
     PassangerMapper INSTANCE = Mappers.getMapper(PassangerMapper.class);
 
     @Override
     Pasangers toEntity(PassangersDto dto);
+
     @Override
     List<Pasangers> toEntityList(List<PassangersDto> dtoList);
+
     @Override
     PassangersDto toDto(Pasangers entity);
+
     @Override
     List<PassangersDto> toDtoList(List<Pasangers> entityList);
 }

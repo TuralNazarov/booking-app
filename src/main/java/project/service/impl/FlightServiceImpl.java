@@ -1,30 +1,35 @@
 package project.service.impl;
 
 import lombok.AllArgsConstructor;
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Service;
+import project.exception.ResourceNotFoundException;
 import project.model.dto.FlightDto;
 import project.model.entity.FLight;
+import project.model.mapper.FlightMapper;
 import project.model.repository.FlightRepository;
 import project.service.FlightService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class FlightServiceImpl implements FlightService {
 
     private final FlightRepository flightRepository;
-//    private final FlightMapper flightMapper;
+    private final FlightMapper flightMapper;
 
     @Override
     public List<FlightDto> findAllFlights() {
         List<FLight> flights = flightRepository.findAll();
-        return List.of();
+        return flights.stream().map(flightMapper::toDto).collect(Collectors.toList());
     }
 
     @Override
     public FlightDto findFlightById(long id) {
-        return null;
+        FLight flight = flightRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Flight not found"));
+        return flightMapper.toDto(flight);
     }
 
     @Override
