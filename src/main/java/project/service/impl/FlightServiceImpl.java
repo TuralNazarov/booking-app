@@ -2,11 +2,52 @@ package project.service.impl;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import project.model.dto.FlightDto;
 import project.model.repository.FlightRepository;
+import project.service.FlightService;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class FlightServiceImpl {
-    private FlightRepository flightRepository;
+public class FlightServiceImpl implements FlightService {
+
+    private final FlightRepository flightRepository;
+
+
+    @Override
+    public List<FlightDto> findAllFlights() {
+        return List.of();
+    }
+
+    @Override
+    public FlightDto findFlightById(long id) {
+        return null;
+    }
+
+    @Override
+    public FlightDto addFlight(FlightDto flight) {
+        return null;
+    }
+
+    @Override
+    public FlightDto updateFlight(FlightDto flight) {
+        return null;
+    }
+
+    @Override
+    public void deleteFlight(long id) {
+
+    }
+
+    @Override
+    public List<FlightDto> searchFlights(String search, int start, int end) {
+        return List.of();
+    }
+
+    @Override
+    public List<FlightDto> getUpcomingFlights() {
+        return List.of();
+    }
 
 }
