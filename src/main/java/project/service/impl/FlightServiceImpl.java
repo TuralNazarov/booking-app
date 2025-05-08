@@ -4,12 +4,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import project.model.dto.FlightDto;
 import project.model.entity.FLight;
-import project.model.mapper.FlightMapper;
 import project.model.repository.FlightRepository;
 import project.service.FlightService;
 
 import java.util.List;
-import java.util.stream.Collector;
 
 @Service
 @AllArgsConstructor
