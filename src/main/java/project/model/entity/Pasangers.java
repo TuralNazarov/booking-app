@@ -19,10 +19,10 @@ public class Pasangers {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false,name = "name")
+    @Column(nullable = false, name = "name")
     private String name;
 
-    @Column(nullable = false,name = "surname")
+    @Column(nullable = false, name = "surname")
     private String surname;
 
     @Column(name = "passport", nullable = false)
