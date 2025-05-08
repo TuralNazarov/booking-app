@@ -1,4 +1,4 @@
-package project.entity;
+package project.model.entity;
 
 import jakarta.persistence.*;
 import jdk.jfr.Timestamp;
