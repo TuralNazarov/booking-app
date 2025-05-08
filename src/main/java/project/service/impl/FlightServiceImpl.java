@@ -16,12 +16,12 @@ import java.util.stream.Collector;
 public class FlightServiceImpl implements FlightService {
 
     private final FlightRepository flightRepository;
-    private final FlightMapper flightMapper;
+//    private final FlightMapper flightMapper;
 
     @Override
     public List<FlightDto> findAllFlights() {
         List<FLight> flights = flightRepository.findAll();
-        return flights.stream().map(FlightMapper :: toDto).collect(Collector.toList());
+        return List.of();
     }
 
     @Override
