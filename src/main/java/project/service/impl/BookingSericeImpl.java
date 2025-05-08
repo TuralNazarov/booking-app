@@ -8,6 +8,8 @@ import java.util.List;
 
 @Service
 public class BookingSericeImpl implements BookingService {
+
+
     @Override
     public List<BookingDto> findAll() {
         return List.of();
