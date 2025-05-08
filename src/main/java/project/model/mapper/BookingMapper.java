@@ -1,4 +1,4 @@
 package project.model.mapper;
 
-public class BookingMapper {
+public interface BookingMapper {
 }

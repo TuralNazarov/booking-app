@@ -1,4 +1,9 @@
 package project.model.mapper;
 
-public class FlightMapper {
+
+import project.model.dto.FlightDto;
+import project.model.entity.FLight;
+
+public interface FlightMapper extends EntityMapper<FlightDto, FLight> {
+
 }
