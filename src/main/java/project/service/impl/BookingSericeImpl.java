@@ -13,6 +13,11 @@ public class BookingSericeImpl implements BookingService {
     private final BookingRepository bookingRepository;
     private final BookingDto bookingDto;
 
+    public BookingSericeImpl(BookingRepository bookingRepository, BookingDto bookingDto) {
+        this.bookingRepository = bookingRepository;
+        this.bookingDto = bookingDto;
+    }
+
     @Override
     public List<BookingDto> findAll() {
         return List.of();
