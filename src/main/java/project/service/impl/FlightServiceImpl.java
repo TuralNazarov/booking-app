@@ -1,11 +1,11 @@
 package project.service.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import project.exception.ResourceNotFoundException;
 import project.model.dto.FlightDto;
-import project.model.entity.FLight;
+import project.model.entity.Flight;
 import project.model.mapper.FlightMapper;
 import project.model.repository.FlightRepository;
 import project.service.FlightService;
@@ -22,13 +22,13 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public List<FlightDto> findAllFlights() {
-        List<FLight> flights = flightRepository.findAll();
+        List<Flight> flights = flightRepository.findAll();
         return flights.stream().map(flightMapper::toDto).collect(Collectors.toList());
     }
 
     @Override
     public FlightDto findFlightById(long id) {
-        FLight flight = flightRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Flight not found"));
+        Flight flight = flightRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Flight not found"));
         return flightMapper.toDto(flight);
     }
 
@@ -45,6 +45,21 @@ public class FlightServiceImpl implements FlightService {
     @Override
     public void deleteFlight(long id) {
 
+    }
+
+    @Override
+    @Transactional
+    public void updateAvailableSeats(Long flightId, int seatsToBook) {
+        Flight flight = flightRepository.findById(flightId)
+                .orElseThrow(() -> new RuntimeException("Flight not found with id: " + flightId));
+
+        int currentSeats = flight.getAviableSeats();
+        if (currentSeats < seatsToBook) {
+            throw new IllegalArgumentException("Not enough seats available");
+        }
+
+        flight.setAviableSeats(currentSeats - seatsToBook);
+        flightRepository.save(flight);
     }
 
     @Override

@@ -17,6 +17,8 @@ public interface FlightService {
 
     public void deleteFlight(long id);
 
+    public void updateAvailableSeats(Long flightId, int seatsToBook);
+
     public List<FlightDto> searchFlights(String search, int start, int end);
 
     public List<FlightDto> getUpcomingFlights();

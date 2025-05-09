@@ -3,28 +3,27 @@ package project.model.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-import org.springframework.stereotype.Component;
 import project.model.dto.FlightDto;
-import project.model.entity.FLight;
+import project.model.entity.Flight;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
-public interface FlightMapper extends EntityMapper<FlightDto, FLight> {
+public interface FlightMapper extends EntityMapper<FlightDto, Flight> {
     FlightMapper INSTANCE = Mappers.getMapper(FlightMapper.class);
 
 
     @Override
-    FLight toEntity(FlightDto dto);
+    Flight toEntity(FlightDto dto);
 
     @Override
-    List<FLight> toEntityList(List<FlightDto> dtoList);
+    List<Flight> toEntityList(List<FlightDto> dtoList);
 
     @Override
-    FlightDto toDto(FLight fLight);
+    FlightDto toDto(Flight fLight);
 
     @Override
-    List<FlightDto> toDtoList(List<FLight> flightList);
+    List<FlightDto> toDtoList(List<Flight> flightList);
 
 
 }
