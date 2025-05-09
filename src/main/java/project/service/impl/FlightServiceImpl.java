@@ -33,18 +33,32 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    public FlightDto addFlight(FlightDto flight) {
-        return null;
+    public FlightDto addFlight(FlightDto flightDto) {
+        Flight newFlight = flightMapper.toEntity(flightDto);
+        Flight savedFlight = flightRepository.save(newFlight);
+        return flightMapper.toDto(savedFlight);
     }
 
     @Override
-    public FlightDto updateFlight(FlightDto flight) {
-        return null;
+    public FlightDto updateFlight(FlightDto flightDto) {
+        Flight existingFlight = flightRepository.findById(flightDto.getId()).orElseThrow(() -> new ResourceNotFoundException("Flight ID: " + flightDto.getId() + " not found"));
+        flightMapper.updateEntityFromDto(flightDto, existingFlight);
+        Flight updatedFlight = flightRepository.save(existingFlight);
+        return flightMapper.toDto(updatedFlight);
     }
 
     @Override
     public void deleteFlight(long id) {
+        if (!flightRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Flight ID: " + id + " not found");
+        }
+        flightRepository.deleteById(id);
+    }
 
+    @Override
+    public void saveFlight(FlightDto flightDto) {
+        Flight flight = flightMapper.toEntity(flightDto);
+        flightRepository.save(flight);
     }
 
     @Override
@@ -53,17 +67,17 @@ public class FlightServiceImpl implements FlightService {
         Flight flight = flightRepository.findById(flightId)
                 .orElseThrow(() -> new RuntimeException("Flight not found with id: " + flightId));
 
-        int currentSeats = flight.getAviableSeats();
+        int currentSeats = flight.getAvailableSeats();
         if (currentSeats < seatsToBook) {
             throw new IllegalArgumentException("Not enough seats available");
         }
 
-        flight.setAviableSeats(currentSeats - seatsToBook);
+        flight.setAvailableSeats(currentSeats - seatsToBook);
         flightRepository.save(flight);
     }
 
     @Override
-    public List<FlightDto> searchFlights(String search, int start, int end) {
+    public List<FlightDto> searchFlights(String origin, String destination, int availableSeats) {
         return List.of();
     }
 

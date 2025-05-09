@@ -2,7 +2,6 @@ package project.service.impl;
 
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-import project.exception.ResourceNotFoundException;
 import project.model.dto.BookingDto;
 import project.model.entity.Booking;
 import project.model.entity.Flight;
@@ -17,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class BookingSericeImpl implements BookingService {
+public class BookingServiceImpl implements BookingService {
 
     private final BookingRepository bookingRepository;
     private final BookingMapper bookingMapper;
@@ -25,11 +24,11 @@ public class BookingSericeImpl implements BookingService {
     private final PassagnerServiceImpl passengerService;
     private final FlightService flightService;
 
-    public BookingSericeImpl(BookingRepository bookingRepository,
-                             BookingMapper bookingMapper,
-                             FlightRepository flightRepository,
-                             PassagnerServiceImpl passengerService,
-                             FlightService flightService) {
+    public BookingServiceImpl(BookingRepository bookingRepository,
+                              BookingMapper bookingMapper,
+                              FlightRepository flightRepository,
+                              PassagnerServiceImpl passengerService,
+                              FlightService flightService) {
         this.bookingRepository = bookingRepository;
         this.bookingMapper = bookingMapper;
         this.flightRepository = flightRepository;
@@ -54,7 +53,7 @@ public class BookingSericeImpl implements BookingService {
     public BookingDto save(BookingDto bookingDto) {
         Flight flight = flightRepository.findById(bookingDto.getFlightId()).orElse(null);
 
-        if (flight.getAviableSeats() < bookingDto.getNumberOfSeats()) {
+        if (flight.getAvailableSeats() < bookingDto.getNumberOfSeats()) {
             throw new IllegalArgumentException("Not enough seats available on this flight");
         }
 
@@ -80,8 +79,8 @@ public class BookingSericeImpl implements BookingService {
                 .orElseThrow(() -> new RuntimeException("Booking not found with id: " + id));
 
         Flight flight = booking.getFlight();
-        int updatedSeats = flight.getAviableSeats() + booking.getNumberOfSeats();
-        flight.setAviableSeats(updatedSeats);
+        int updatedSeats = flight.getAvailableSeats() + booking.getNumberOfSeats();
+        flight.setAvailableSeats(updatedSeats);
         flightRepository.save(flight);
 
         bookingRepository.deleteById(id);
