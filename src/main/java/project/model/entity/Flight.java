@@ -28,11 +28,10 @@ public class Flight {
     @Column(nullable = false, name = "destination")
     private String destination;
 
-    @Column(nullable = false, name = "aviableSeats")
-    private int aviableSeats;
+    @Column(nullable = false, name = "availableSeats")
+    private int availableSeats;
     @Timestamp
     @Column(nullable = false, name = "timestamp")
     private LocalDateTime timestamp;
-
 
 }

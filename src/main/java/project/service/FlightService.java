@@ -11,15 +11,17 @@ public interface FlightService {
 
     public FlightDto findFlightById(long id);
 
-    public FlightDto addFlight(FlightDto flight);
+    public FlightDto addFlight(FlightDto flightDto);
 
-    public FlightDto updateFlight(FlightDto flight);
+    public FlightDto updateFlight(FlightDto flightDto);
 
     public void deleteFlight(long id);
 
+    public void saveFlight(FlightDto flightDto);
+
     public void updateAvailableSeats(Long flightId, int seatsToBook);
 
-    public List<FlightDto> searchFlights(String search, int start, int end);
+    public List<FlightDto> searchFlights(String origin, String destination, int availableSeats);
 
     public List<FlightDto> getUpcomingFlights();
 }

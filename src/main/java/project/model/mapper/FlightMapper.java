@@ -1,7 +1,10 @@
 package project.model.mapper;
 
 
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.factory.Mappers;
 import project.model.dto.FlightDto;
 import project.model.entity.Flight;
@@ -25,5 +28,6 @@ public interface FlightMapper extends EntityMapper<FlightDto, Flight> {
     @Override
     List<FlightDto> toDtoList(List<Flight> flightList);
 
-
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateEntityFromDto(FlightDto dto, @MappingTarget Flight entity);
 }

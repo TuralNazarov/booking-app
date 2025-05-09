@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import project.model.entity.Passangers;
 
 @Repository
-public interface PasangersRepository extends JpaRepository<Passangers,Long> {
+public interface PasangersRepository extends JpaRepository<Passangers, Long> {
 }
