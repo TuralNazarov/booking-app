@@ -1,40 +1,89 @@
 package project.service.impl;
 
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import project.exception.ResourceNotFoundException;
 import project.model.dto.BookingDto;
+import project.model.entity.Booking;
+import project.model.entity.Flight;
+import project.model.entity.Passangers;
+import project.model.mapper.BookingMapper;
 import project.model.repository.BookingRepository;
+import project.model.repository.FlightRepository;
 import project.service.BookingService;
+import project.service.FlightService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BookingSericeImpl implements BookingService {
 
     private final BookingRepository bookingRepository;
-    private final BookingDto bookingDto;
+    private final BookingMapper bookingMapper;
+    private final FlightRepository flightRepository;
+    private final PassagnerServiceImpl passengerService;
+    private final FlightService flightService;
 
-    public BookingSericeImpl(BookingRepository bookingRepository, BookingDto bookingDto) {
+    public BookingSericeImpl(BookingRepository bookingRepository,
+                             BookingMapper bookingMapper,
+                             FlightRepository flightRepository,
+                             PassagnerServiceImpl passengerService,
+                             FlightService flightService) {
         this.bookingRepository = bookingRepository;
-        this.bookingDto = bookingDto;
+        this.bookingMapper = bookingMapper;
+        this.flightRepository = flightRepository;
+        this.passengerService = passengerService;
+        this.flightService = flightService;
     }
 
     @Override
     public List<BookingDto> findAll() {
-        return List.of();
+        List<Booking> bookings = bookingRepository.findAll();
+        return bookings.stream().map(bookingMapper::toDto).collect(Collectors.toList());
     }
 
     @Override
     public BookingDto findById(long id) {
-        return null;
+        Booking booking = bookingRepository.findById(id).orElseThrow(() -> new RuntimeException("Booking not found"));
+        return bookingMapper.toDto(booking);
     }
 
     @Override
+    @Transactional
     public BookingDto save(BookingDto bookingDto) {
-        return null;
+        Flight flight = flightRepository.findById(bookingDto.getFlightId()).orElse(null);
+
+        if (flight.getAviableSeats() < bookingDto.getNumberOfSeats()) {
+            throw new IllegalArgumentException("Not enough seats available on this flight");
+        }
+
+        Passangers passenger = passengerService.findById(bookingDto.getPassengerId());
+
+        Booking booking = new Booking();
+        booking.setFlight(flight);
+        booking.setPassangers(passenger);
+        booking.setNumberOfSeats(bookingDto.getNumberOfSeats());
+
+        flightService.updateAvailableSeats(flight.getId(), bookingDto.getNumberOfSeats());
+
+        booking = bookingRepository.save(booking);
+
+        return bookingMapper.toDto(booking);
+
     }
 
     @Override
+    @Transactional
     public void deleteById(long id) {
+        Booking booking = bookingRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Booking not found with id: " + id));
 
+        Flight flight = booking.getFlight();
+        int updatedSeats = flight.getAviableSeats() + booking.getNumberOfSeats();
+        flight.setAviableSeats(updatedSeats);
+        flightRepository.save(flight);
+
+        bookingRepository.deleteById(id);
     }
 }
