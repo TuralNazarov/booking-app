@@ -10,6 +10,7 @@ import project.model.mapper.FlightMapper;
 import project.model.repository.FlightRepository;
 import project.service.FlightService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -78,12 +79,14 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public List<FlightDto> searchFlights(String origin, String destination, int availableSeats) {
-        return List.of();
+        List<Flight> flights = flightRepository.findByOriginIgnoreCaseAndDestinationIgnoreCaseAndAvailableSeatsGreaterThanEqual(origin, destination, availableSeats);
+        return flightMapper.toDtoList(flights);
     }
 
     @Override
     public List<FlightDto> getUpcomingFlights() {
-        return List.of();
+        List<Flight> flights = flightRepository.findByTimestampAfter(LocalDateTime.now());
+        return flightMapper.toDtoList(flights);
     }
 
 }
