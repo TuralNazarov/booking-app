@@ -3,7 +3,6 @@ package project.service.impl;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import project.exception.ResourceNotFoundException;
 import project.model.dto.FlightDto;
 import project.model.entity.Flight;
 import project.model.mapper.FlightMapper;
@@ -29,7 +28,7 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public FlightDto findFlightById(long id) {
-        Flight flight = flightRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Flight not found"));
+        Flight flight = flightRepository.findById(id).orElseThrow(() -> new RuntimeException("Flight not found"));
         return flightMapper.toDto(flight);
     }
 
@@ -42,7 +41,7 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public FlightDto updateFlight(FlightDto flightDto) {
-        Flight existingFlight = flightRepository.findById(flightDto.getId()).orElseThrow(() -> new ResourceNotFoundException("Flight ID: " + flightDto.getId() + " not found"));
+        Flight existingFlight = flightRepository.findById(flightDto.getId()).orElseThrow(() -> new RuntimeException("Flight ID: " + flightDto.getId() + " not found"));
         flightMapper.updateEntityFromDto(flightDto, existingFlight);
         Flight updatedFlight = flightRepository.save(existingFlight);
         return flightMapper.toDto(updatedFlight);
@@ -51,7 +50,7 @@ public class FlightServiceImpl implements FlightService {
     @Override
     public void deleteFlight(long id) {
         if (!flightRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Flight ID: " + id + " not found");
+            throw new RuntimeException("Flight ID: " + id + " not found");
         }
         flightRepository.deleteById(id);
     }
