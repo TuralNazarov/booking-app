@@ -8,8 +8,8 @@ import project.model.entity.Passengers;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
-public interface PassengerMapper extends EntityMapper<PassengersDto, Passengers> {
-    PassengerMapper INSTANCE = Mappers.getMapper(PassengerMapper.class);
+public interface PassengersMapper extends EntityMapper<PassengersDto, Passengers> {
+    PassengersMapper INSTANCE = Mappers.getMapper(PassengersMapper.class);
 
     @Override
     Passengers toEntity(PassengersDto dto);
@@ -22,4 +22,6 @@ public interface PassengerMapper extends EntityMapper<PassengersDto, Passengers>
 
     @Override
     List<PassengersDto> toDtoList(List<Passengers> entityList);
+
+    void updateEntityFromDto(PassengersDto passengersDto, Passengers existingPassenger);
 }

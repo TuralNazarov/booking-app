@@ -3,10 +3,12 @@ package project.service.impl;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import project.model.dto.BookingDto;
+import project.model.dto.PassengersDto;
 import project.model.entity.Booking;
 import project.model.entity.Flight;
 import project.model.entity.Passengers;
 import project.model.mapper.BookingMapper;
+import project.model.mapper.PassengersMapper;
 import project.model.repository.BookingRepository;
 import project.model.repository.FlightRepository;
 import project.service.BookingService;
@@ -57,8 +59,9 @@ public class BookingServiceImpl implements BookingService {
             throw new IllegalArgumentException("Not enough seats available on this flight");
         }
 
-        Passengers passenger = passengerService.findById(bookingDto.getPassengerId());
+        PassengersDto passengersDto = passengerService.findById(bookingDto.getPassengerId());
 
+        Passengers passenger = PassengersMapper.INSTANCE.toEntity(passengersDto);
         Booking booking = new Booking();
         booking.setFlight(flight);
         booking.setPassengers(passenger);
@@ -69,7 +72,6 @@ public class BookingServiceImpl implements BookingService {
         booking = bookingRepository.save(booking);
 
         return bookingMapper.toDto(booking);
-
     }
 
     @Override

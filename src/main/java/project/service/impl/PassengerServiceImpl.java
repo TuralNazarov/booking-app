@@ -1,41 +1,70 @@
 package project.service.impl;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import project.model.dto.PassengersDto;
 import project.model.entity.Passengers;
+import project.model.mapper.PassengersMapper;
+import project.model.repository.PassengersRepository;
 import project.service.PassengerService;
-
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class PassengerServiceImpl implements PassengerService {
+
+    private final PassengersRepository passengersRepository;
+    private final PassengersMapper passengerMapper;
+
     @Override
-    public List<Passengers> findAll() {
-        return List.of();
+    public List<PassengersDto> findAll() {
+        return passengersRepository.findAll().stream().map(passengerMapper::toDto).toList();
     }
 
     @Override
-    public Passengers findById(long id) {
-        return null;
+    public PassengersDto findById(long id) {
+        return passengerMapper.toDto(passengersRepository.findById(id).orElseThrow(() -> new RuntimeException("Passenger not found")));
     }
 
     @Override
-    public void save(Passengers passengers) {
-
+    public void save(PassengersDto passengersDto) {
+        Passengers passenger = passengerMapper.toEntity(passengersDto);
+        passengersRepository.save(passenger);
     }
 
     @Override
-    public void delete(Passengers passengers) {
-
+    public void delete(long id) {
+        if (!passengersRepository.existsById(id)){
+            throw new RuntimeException("Passenger not found with id: " + id);
+        }
+        passengersRepository.deleteById(id);
     }
 
     @Override
-    public PassengersDto update(Passengers passengers) {
-        return null;
+    public PassengersDto update(PassengersDto passengersDto) {
+        Passengers existingPassenger = passengersRepository.findById(passengersDto.getId()).orElseThrow(() -> new RuntimeException("Passenger ID: " + passengersDto.getId() + " not found"));
+        passengerMapper.updateEntityFromDto(passengersDto, existingPassenger);
+        Passengers updatedPassenger = passengersRepository.save(existingPassenger);
+        return passengerMapper.toDto(updatedPassenger);
     }
 
     @Override
-    public List<Passengers> search(String search, int start, int end) {
-        return List.of();
+    public List<PassengersDto> search(String firstName, String lastName, long id) {
+        List<Passengers> matchedPassengers;
+
+        if (id > 0) {
+            Optional<Passengers> optionalPassenger = passengersRepository.findById(id);
+            matchedPassengers = optionalPassenger.map(List::of).orElse(List.of());
+        } else {
+            matchedPassengers = passengersRepository
+                    .findByFirstNameContainingIgnoreCaseAndLastNameContainingIgnoreCase(
+                            firstName != null ? firstName : "",
+                            lastName != null ? lastName : ""
+                    );
+        }
+
+        return matchedPassengers.stream().map(passengerMapper::toDto).collect(Collectors.toList());
     }
 }
