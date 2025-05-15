@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 public class BookingDto {
     private Long id;
     private Long flightId;
+    private long passengerId;
     private String passengerName;
     private Integer numberOfSeats;
 }
