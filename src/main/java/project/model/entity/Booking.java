@@ -23,7 +23,7 @@ public class Booking {
 
     @OneToOne
     @JoinColumn(name = "pasangers_id", nullable = false)
-    private Passangers passangers;
+    private Passengers passengers;
 
     @Column(name = "numberOfSeats", nullable = false)
     private int numberOfSeats;
