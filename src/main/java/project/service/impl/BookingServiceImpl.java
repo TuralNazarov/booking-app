@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import project.model.dto.BookingDto;
 import project.model.entity.Booking;
 import project.model.entity.Flight;
-import project.model.entity.Passangers;
+import project.model.entity.Passengers;
 import project.model.mapper.BookingMapper;
 import project.model.repository.BookingRepository;
 import project.model.repository.FlightRepository;
@@ -57,7 +57,7 @@ public class BookingServiceImpl implements BookingService {
             throw new IllegalArgumentException("Not enough seats available on this flight");
         }
 
-        Passangers passenger = passengerService.findById(bookingDto.getPassengerId());
+        Passengers passenger = passengerService.findById(bookingDto.getPassengerId());
 
         Booking booking = new Booking();
         booking.setFlight(flight);

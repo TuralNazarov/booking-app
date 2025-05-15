@@ -1,21 +1,20 @@
 package project.service;
 
-import project.model.dto.PassangersDto;
-import project.model.entity.Passangers;
+import project.model.dto.PassengersDto;
 
 import java.util.List;
 
-public interface PassangerService {
+public interface PassengerService {
 
-    public List<Passangers> findAll();
+    public List<PassengersDto> findAll();
 
-    public Passangers findById(int id);
+    public PassengersDto findById(long id);
 
-    public void save(Passangers passangers);
+    public void save(PassengersDto passengersDto);
 
-    public void delete(Passangers passangers);
+    public void delete(long id);
 
-    public PassangersDto update(Passangers passangers);
+    public PassengersDto update(PassengersDto passengersDto);
 
-    public List<Passangers> search(String search, int start, int end);
+    public List<PassengersDto> search(String firstName, String lastName, long id);
 }
