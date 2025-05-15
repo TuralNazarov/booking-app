@@ -1,4 +1,4 @@
 package project.model.dto;
 
-public class PassangersDto {
+public class PassengersDto {
 }

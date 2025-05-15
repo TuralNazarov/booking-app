@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import project.model.dto.BookingDto;
 import project.model.entity.Booking;
 import project.model.entity.Flight;
-import project.model.entity.Passangers;
+import project.model.entity.Passengers;
 import project.model.mapper.BookingMapper;
 import project.model.repository.BookingRepository;
 import project.model.repository.FlightRepository;
@@ -21,13 +21,13 @@ public class BookingServiceImpl implements BookingService {
     private final BookingRepository bookingRepository;
     private final BookingMapper bookingMapper;
     private final FlightRepository flightRepository;
-    private final PassagnerServiceImpl passengerService;
+    private final PassengerServiceImpl passengerService;
     private final FlightService flightService;
 
     public BookingServiceImpl(BookingRepository bookingRepository,
                               BookingMapper bookingMapper,
                               FlightRepository flightRepository,
-                              PassagnerServiceImpl passengerService,
+                              PassengerServiceImpl passengerService,
                               FlightService flightService) {
         this.bookingRepository = bookingRepository;
         this.bookingMapper = bookingMapper;
@@ -57,11 +57,11 @@ public class BookingServiceImpl implements BookingService {
             throw new IllegalArgumentException("Not enough seats available on this flight");
         }
 
-        Passangers passenger = passengerService.findById(bookingDto.getPassengerId());
+        Passengers passenger = passengerService.findById(bookingDto.getPassengerId());
 
         Booking booking = new Booking();
         booking.setFlight(flight);
-        booking.setPassangers(passenger);
+        booking.setPassengers(passenger);
         booking.setNumberOfSeats(bookingDto.getNumberOfSeats());
 
         flightService.updateAvailableSeats(flight.getId(), bookingDto.getNumberOfSeats());
