@@ -62,7 +62,6 @@ public class BookingServiceImpl implements BookingService {
         PassengersDto passengersDto = passengerService.findById(bookingDto.getPassengerId());
 
         Passengers passenger = PassengersMapper.INSTANCE.toEntity(passengersDto);
-
         Booking booking = new Booking();
         booking.setFlight(flight);
         booking.setPassengers(passenger);
