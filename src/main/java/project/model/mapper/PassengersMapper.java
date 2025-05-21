@@ -3,12 +3,14 @@ package project.model.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
+import org.springframework.stereotype.Component;
 import project.model.dto.PassengersDto;
 import project.model.entity.Passengers;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
+@Component
 public interface PassengersMapper extends EntityMapper<PassengersDto, Passengers> {
     PassengersMapper INSTANCE = Mappers.getMapper(PassengersMapper.class);
 

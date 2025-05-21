@@ -2,6 +2,7 @@ package project.service.impl;
 
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import project.exception.NotFoundException;
 import project.model.dto.BookingDto;
 import project.model.dto.PassengersDto;
 import project.model.entity.Booking;
@@ -46,7 +47,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public BookingDto findById(long id) {
-        Booking booking = bookingRepository.findById(id).orElseThrow(() -> new RuntimeException("Booking not found"));
+        Booking booking = bookingRepository.findById(id).orElseThrow(() -> new NotFoundException("Booking not found"));
         return bookingMapper.toDto(booking);
     }
 
@@ -78,7 +79,8 @@ public class BookingServiceImpl implements BookingService {
     @Transactional
     public void deleteById(long id) {
         Booking booking = bookingRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Booking not found with id: " + id));
+                .orElseThrow(() -> new NotFoundException(
+                        "Booking not found with id: " + id));
 
         Flight flight = booking.getFlight();
         int updatedSeats = flight.getAvailableSeats() + booking.getNumberOfSeats();

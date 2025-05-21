@@ -1,7 +1,9 @@
 package project.service.impl;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import project.exception.NotFoundException;
 import project.model.dto.PassengersDto;
 import project.model.entity.Passengers;
 import project.model.mapper.PassengersMapper;
@@ -16,6 +18,7 @@ import java.util.stream.Collectors;
 public class PassengerServiceImpl implements PassengerService {
 
     private final PassengersRepository passengersRepository;
+    @Qualifier("passengersMapper")
     private final PassengersMapper passengerMapper;
 
     @Override
@@ -25,7 +28,7 @@ public class PassengerServiceImpl implements PassengerService {
 
     @Override
     public PassengersDto findById(long id) {
-        return passengerMapper.toDto(passengersRepository.findById(id).orElseThrow(() -> new RuntimeException("Passenger not found")));
+        return passengerMapper.toDto(passengersRepository.findById(id).orElseThrow(() -> new NotFoundException("Passenger not found")));
     }
 
     @Override
@@ -37,7 +40,7 @@ public class PassengerServiceImpl implements PassengerService {
     @Override
     public void delete(long id) {
         if (!passengersRepository.existsById(id)){
-            throw new RuntimeException("Passenger not found with id: " + id);
+            throw new NotFoundException("Passenger not found with id: " + id);
         }
         passengersRepository.deleteById(id);
     }
