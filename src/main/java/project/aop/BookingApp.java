@@ -1,7 +1,6 @@
 package project.aop;
 
 
-import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 @Slf4j
-public class BookingAop {
+public class BookingApp {
 
     @Before("execution(* project.service.*(..))")
     public void LogBefore(JoinPoint joinPoint) {
