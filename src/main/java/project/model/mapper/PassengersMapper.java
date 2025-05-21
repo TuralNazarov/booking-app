@@ -1,6 +1,7 @@
 package project.model.mapper;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 import project.model.dto.PassengersDto;
 import project.model.entity.Passengers;
@@ -23,5 +24,5 @@ public interface PassengersMapper extends EntityMapper<PassengersDto, Passengers
     @Override
     List<PassengersDto> toDtoList(List<Passengers> entityList);
 
-    void updateEntityFromDto(PassengersDto passengersDto, Passengers existingPassenger);
+    void updateEntityFromDto(PassengersDto passengersDto, @MappingTarget Passengers existingPassenger);
 }

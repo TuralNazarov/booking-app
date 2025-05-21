@@ -1,6 +1,7 @@
 package project.model.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,13 +20,16 @@ public class Passengers {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false, name = "name")
-    private String name;
+    @NotBlank
+    @Column(nullable = false, name = "firstName")
+    private String firstName;
 
-    @Column(nullable = false, name = "surname")
-    private String surname;
+    @NotBlank
+    @Column(nullable = false, name = "lastName")
+    private String lastName;
 
-    @Column(name = "passport", nullable = false)
+    @NotBlank
+    @Column(name = "passport", nullable = false,unique = true)
     private String passport;
 
 
