@@ -32,9 +32,11 @@ public class PassengerServiceImpl implements PassengerService {
     }
 
     @Override
-    public void save(PassengersDto passengersDto) {
+    public PassengersDto save(PassengersDto passengersDto) {
+        System.out.println("Received DTO: " + passengersDto);
         Passengers passenger = passengerMapper.toEntity(passengersDto);
-        passengersRepository.save(passenger);
+        System.out.println("Mapped Entity: " + passenger);
+        return passengerMapper.toDto(passenger);
     }
 
     @Override

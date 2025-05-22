@@ -10,7 +10,7 @@ public interface PassengerService {
 
     public PassengersDto findById(long id);
 
-    public void save(PassengersDto passengersDto);
+    public PassengersDto save(PassengersDto passengersDto);
 
     public void delete(long id);
 

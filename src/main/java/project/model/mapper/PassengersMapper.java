@@ -10,7 +10,7 @@ import project.model.entity.Passengers;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
-@Component
+
 public interface PassengersMapper extends EntityMapper<PassengersDto, Passengers> {
     PassengersMapper INSTANCE = Mappers.getMapper(PassengersMapper.class);
 
